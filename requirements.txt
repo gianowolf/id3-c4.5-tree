@@ -1,3 +1,6 @@
 pytest
 python-dotenv
 pandas
+scikit-learn
+graphviz
+pydot

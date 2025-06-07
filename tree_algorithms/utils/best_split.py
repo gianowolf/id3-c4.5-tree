@@ -13,7 +13,7 @@ def best_split_attribute(
 ) -> Optional[Tuple[str, Optional[float]]]:
     """
     Determine the best attribute to split on using a specified method.
-    For numeric attributes, also find the best threshold.
+    For numeric attributes, also find the best threshold (C4.5 only).
 
     Parameters:
     - dataset (pd.DataFrame): The dataset.
@@ -24,6 +24,11 @@ def best_split_attribute(
     Returns:
     - Optional[Tuple[str, Optional[float]]]: (attribute, threshold) or None
     """
+
+    # ⛔️ Para ID3, se deben ignorar atributos numéricos
+    if method == "gain":
+        attributes = [a for a in attributes if not is_numeric_attribute(dataset[a])]
+
     best_attr = None
     best_score = -float("inf")
     best_threshold = None
@@ -48,4 +53,4 @@ def best_split_attribute(
     if best_attr is None:
         return None
 
-    return best_attr, best_threshold
+    return best_attr, best_threshold, best_score
